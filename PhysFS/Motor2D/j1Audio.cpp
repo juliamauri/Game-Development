@@ -44,7 +44,7 @@ bool j1Audio::Awake()
 	if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 	{
 		LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-		ret = true; //HERE!!
+		ret = false; //HERE!!
 	}
 
 	return ret;
@@ -93,7 +93,13 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 	}
 
 	// TODO 6: Same as with the textures, use the proper RW loading function
-	music = Mix_LoadMUS(path);
+	SDL_RWops* mus_rw = nullptr;
+	j1FileSystem music_rw(path);
+	mus_rw = music_rw.Load(path);
+
+	music = Mix_LoadMUS_RW(mus_rw,1);
+
+
 
 	if(music == NULL)
 	{
