@@ -4,6 +4,7 @@
 #include "j1Module.h"
 
 struct SDL_RWops;
+struct PHYSFS_File;
 
 int close_sdl_rwops(SDL_RWops *rw);
 
@@ -22,6 +23,11 @@ public:
 	// Open for Read/Write
 	unsigned int Load(const char* file, char** buffer) const;
 	SDL_RWops* Load(const char* file) const;
+
+	//HW
+	bool Exist(const char* file);
+	//PHYSFS_sint64 SizeFile(PHYSFS_File* file);
+	void Delete(SDL_RWops *rw);
 
 private:
 

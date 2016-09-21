@@ -134,7 +134,12 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 unsigned int j1Audio::LoadFx(const char* path)
 {
 	unsigned int ret = 0;
-	Mix_Chunk* chunk = Mix_LoadWAV(path);
+
+	SDL_RWops* fx_rw = nullptr;
+	j1FileSystem fxs_rw(path);
+	fx_rw = fxs_rw.Load(path);
+
+	Mix_Chunk* chunk = Mix_LoadWAV_RW(fx_rw,1);
 
 	if(chunk == NULL)
 	{

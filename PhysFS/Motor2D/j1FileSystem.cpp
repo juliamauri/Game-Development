@@ -88,6 +88,31 @@ SDL_RWops* j1FileSystem::Load(const char* file) const
 	return ret_rw;;
 }
 
+
+//HW
+bool j1FileSystem::Exist(const char* path)
+{
+	bool ret = false;
+
+	if (PHYSFS_exists(path) != 0)
+		ret = true;
+
+	return ret;
+}
+
+/*
+PHYSFS_sint64 j1FileSystem::SizeFile(PHYSFS_File* file)
+{
+	return PHYSFS_fileLength(file);
+}
+*/
+
+void j1FileSystem::Delete(SDL_RWops *rw)
+{
+	RELEASE(rw->hidden.mem.base);
+	SDL_FreeRW(rw);
+}
+
 // TODO 4: you will need to use this small helper function
 // to make sure all data is freed automatically
 int close_sdl_rwops(SDL_RWops *rw)
@@ -96,3 +121,4 @@ int close_sdl_rwops(SDL_RWops *rw)
 	SDL_FreeRW(rw);
 	return 0;
 }
+
