@@ -23,6 +23,10 @@ bool j1Audio::Awake(pugi::xml_node & xmlnode)
 {
 	LOG("Loading Audio Mixer");
 	bool ret = true;
+	
+	musicvolume = xmlnode.child("MUSICVOLUME").attribute("id").as_int();
+	fxvolume = xmlnode.child("FXVOLUME").attribute("id").as_int();
+
 	SDL_Init(0);
 
 	if(SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
@@ -84,6 +88,8 @@ bool j1Audio::CleanUp()
 bool j1Audio::PlayMusic(const char* path, float fade_time)
 {
 	bool ret = true;
+
+	Mix_VolumeMusic(musicvolume);
 
 	if(!active)
 		return false;
@@ -167,6 +173,7 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 
 	if(id > 0 && id <= fx.count())
 	{
+		Mix_VolumeChunk(fx[id - 1], fxvolume);
 		Mix_PlayChannel(-1, fx[id - 1], repeat);
 	}
 

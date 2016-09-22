@@ -36,6 +36,10 @@ private:
 
 	_Mix_Music*			music;
 	p2List<Mix_Chunk*>	fx;
+
+public:
+	uint musicvolume;
+	uint fxvolume;
 };
 
 #endif // __j1AUDIO_H__

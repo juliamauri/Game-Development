@@ -2,24 +2,25 @@
 <!-- Game Configuration -->
 <config>
   <window>
-    <Title>This is real life</Title>
-    <R_FULLSCREEN>false</R_FULLSCREEN>
-    <R_BORDERLESS>false</R_BORDERLESS>
-    <R_RESIZABLE>false</R_RESIZABLE>
-    <R_FULLSCR_WINDOWED>false</R_FULLSCR_WINDOWED>
-    <SCREEN_WIDTH>640</SCREEN_WIDTH>
-    <SCREEN_HEIGHT>480</SCREEN_HEIGHT>
-    <SCALE>1</SCALE>
+    <TITLE>This is real life</TITLE>
+    <R_FULLSCREEN id="false"/>
+    <R_BORDERLESS id="false"/>
+    <R_RESIZABLE id="false"/>
+    <R_FULLSCR_WINDOWED id="false"/>
+    <SCREEN_WIDTH id="640"/>
+    <SCREEN_HEIGHT id="480"/>
+    <SCALE id="1"/>
   </window>
   <file_system>
     <ORGANIZATION>My Awesome Studio</ORGANIZATION>
     <APPNAME>My cool game</APPNAME>
   </file_system>
   <renderer>
-    <VSYNC>true</VSYNC>
+    <VSYNC id="true"/>
   </renderer>
   <audio>
-    <musicvolume>100</musicvolume>
-    <fxvolume>100</fxvolume>
+    <!-- Volume max 128 -->
+    <MUSICVOLUME id="128"/>
+    <FXVOLUME id="128"/>
   </audio>
 </config>

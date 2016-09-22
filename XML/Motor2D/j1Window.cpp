@@ -33,34 +33,26 @@ bool j1Window::Awake(pugi::xml_node & xmlnode)
 	{
 		//Create window
 		Uint32 flags = SDL_WINDOW_SHOWN;
-		width = SCREEN_WIDTH;
-		height = SCREEN_HEIGHT;
-		scale = SCALE;
+		width = xmlnode.child("SCREEN_WIDTH").attribute("id").as_int();
+		height = xmlnode.child("SCREEN_HEIGHT").attribute("id").as_int();
+		scale = xmlnode.child("SCALE").attribute("id").as_int();
 
-		p2SString configwindow = xmlnode.child_value("R_FULLSCREEN");
-
-		if(configwindow == "true")
+		if(xmlnode.child("R_FULLSCREEN").attribute("id").as_bool() == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		configwindow = xmlnode.child_value("R_BORDERLESS");
-
-		if(configwindow == "true")
+		if (xmlnode.child("R_BORDERLESS").attribute("id").as_bool() == true)
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
 		}
 
-		configwindow = xmlnode.child_value("R_RESIZABLE");
-
-		if(configwindow == "true")
+		if (xmlnode.child("R_RESIZABLE").attribute("id").as_bool() == true)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
 
-		configwindow = xmlnode.child_value("R_FULLSCR_WINDOWED");
-
-		if(configwindow == "true")
+		if(xmlnode.child("R_FULLSCR_WINDOWED").attribute("id").as_bool() == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
@@ -78,7 +70,7 @@ bool j1Window::Awake(pugi::xml_node & xmlnode)
 			screen_surface = SDL_GetWindowSurface(window);
 			// TODO 4: Read the title of the app from the XML
 			// and set directly the window title using SetTitle()
-			SetTitle(xmlnode.child_value("Title"));
+			SetTitle(xmlnode.child_value("TITLE"));
 		}
 	}
 	
