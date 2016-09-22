@@ -3,7 +3,6 @@
 
 #include "p2List.h"
 #include "j1Module.h"
-#include "PugiXml\src\pugixml.hpp"
 
 // Modules
 class j1Window;
@@ -39,6 +38,9 @@ public:
 	// Add a new module to handle
 	void AddModule(j1Module* module);
 
+	//Set xml node to first child of xmldocument
+	void InitialChild();
+
 	int GetArgc() const;
 	const char* GetArgv(int index) const;
 
@@ -59,6 +61,7 @@ private:
 	// Call modules after each loop iteration
 	bool PostUpdate();
 
+
 public:
 
 	uint				frames;
@@ -66,7 +69,6 @@ public:
 	// TODO 2: Create two new variables from pugui namespace:
 	// a xml_document to store the while config file and
 	// a xml_node to read specific branches of the xml
-	pugi::xml_document xmlconfig;
 	pugi::xml_node xmlnode;
 
 	// Modules
@@ -84,6 +86,7 @@ private:
 	p2List<j1Module*>	modules;
 	int					argc;
 	char**				args;
+	pugi::xml_document xmlconfig;
 };
 
 extern j1App* App;

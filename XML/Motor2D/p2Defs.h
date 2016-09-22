@@ -63,16 +63,16 @@ inline const char* const PATH(const char* folder, const char* file)
 
 // TODO 6: Improve config.xml to store all configuration variables that we have as macros
 // Use a section with the name of each module (see Module::name)
-#define R_FULLSCREEN false
-#define R_BORDERLESS false
-#define R_RESIZABLE false
-#define R_FULLSCR_WINDOWED false
+//#define R_FULLSCREEN false
+//#define R_BORDERLESS false
+//#define R_RESIZABLE false
+//#define R_FULLSCR_WINDOWED false
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 //#define WINDOW_TITLE "My Game"
 #define SCALE 1
-#define ORGANIZATION "My Awesome Studio"
-#define APPNAME "My cool game"
+//#define ORGANIZATION "My Awesome Studio"
+//#define APPNAME "My cool game"
 
 // Homework: Remove all those config macros since they should be defined in the config.xml
 

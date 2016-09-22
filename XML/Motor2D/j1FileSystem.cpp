@@ -27,13 +27,13 @@ j1FileSystem::~j1FileSystem()
 }
 
 // Called before render is available
-bool j1FileSystem::Awake()
+bool j1FileSystem::Awake(pugi::xml_node & xmlnode)
 {
 	LOG("Loading File System");
 	bool ret = true;
 
 	// Ask SDL for a write dir
-	char* write_path = SDL_GetPrefPath(ORGANIZATION, APPNAME);
+	char* write_path = SDL_GetPrefPath(xmlnode.child_value("ORGANIZATION"), xmlnode.child_value("APPNAME"));
 
 	if(PHYSFS_setWriteDir(write_path) == 0)
 		LOG("File System error while creating write dir: %s\n", PHYSFS_getLastError());

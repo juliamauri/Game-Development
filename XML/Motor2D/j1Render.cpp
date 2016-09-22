@@ -4,8 +4,6 @@
 #include "j1Window.h"
 #include "j1Render.h"
 
-#define VSYNC true
-
 j1Render::j1Render() : j1Module()
 {
 	name.create("renderer");
@@ -20,14 +18,15 @@ j1Render::~j1Render()
 {}
 
 // Called before render is available
-bool j1Render::Awake()
+bool j1Render::Awake(pugi::xml_node & xmlnode)
 {
 	LOG("Create SDL rendering context");
 	bool ret = true;
 	// load flags
 	Uint32 flags = SDL_RENDERER_ACCELERATED;
 
-	if(VSYNC == true)
+	p2SString boolVSYNC = xmlnode.child_value("VSYNC");
+	if(boolVSYNC == "true")
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
 	}
