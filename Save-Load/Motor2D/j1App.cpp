@@ -121,12 +121,6 @@ bool j1App::Update()
 	if(ret == true)
 		ret = PostUpdate();
 
-	if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-		Save();
-
-	if (input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
-		Load();
-
 	FinishUpdate();
 	return ret;
 }
@@ -300,17 +294,6 @@ const char* j1App::GetOrganization() const
 	return organization.GetString();
 }
 
-//Load - Save Game
-
-
-bool j1App::SavegameNow() const
-{
-	return false;
-}
-
-
-
-
 // TODO 3: Create a simulation of the xml file to read 
 
 
@@ -321,7 +304,7 @@ bool j1App::LoadSaveGame()
 	bool ret = true;
 
 	char* buf;
-	int size = App->fs->Load("savegame.xml", &buf);
+	int size = App->fs->Load("save/savegame.xml", &buf);
 	pugi::xml_parse_result result = save_file.load_buffer(buf, size);
 	RELEASE(buf);
 
@@ -349,7 +332,7 @@ bool j1App::LoadGameNow()
 
 		while (item != NULL && ret == true)
 		{
-			ret = item->data->Load(config.child(item->data->name.GetString()));
+			ret = item->data->Load(save.child(item->data->name.GetString()));
 			item = item->next;
 		}
 	}
@@ -363,3 +346,28 @@ bool j1App::LoadGameNow()
 // std::stringstream stream;
 // my_xml_document.save(stream);
 // then access it via stream.str().c_str()
+bool j1App::SavegameNow() const
+{
+	pugi::xml_document file_for_saving;
+
+	file_for_saving.append_child("save");
+
+	bool ret = true;
+
+	p2List_item<j1Module*>* item;
+	item = modules.start;
+
+	while (item != NULL)
+	{
+		ret = item->data->Save(file_for_saving.child("save").append_child(item->data->name.GetString()));
+		item = item->next;
+	}
+	
+	std::stringstream stream;
+	
+	file_for_saving.save(stream);
+
+	App->fs->Save("savegame.xml", stream.str().c_str(), stream.tellp());
+
+	return ret;
+}

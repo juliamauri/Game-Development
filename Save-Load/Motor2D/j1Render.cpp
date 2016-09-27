@@ -92,12 +92,16 @@ bool j1Render::Load(pugi::xml_node& load)
 	camera.x = load.child("CAMERA").attribute("x").as_int();
 	camera.y = load.child("CAMERA").attribute("y").as_int();
 
-	return false;
+	return true;
 }
 
 bool j1Render::Save(pugi::xml_node & save) const
 {
-	return false;
+	save.append_child("CAMERA");
+	save.child("CAMERA").append_attribute("x") = camera.x;
+	save.child("CAMERA").append_attribute("y") = camera.y;
+
+	return true;
 }
 
 // TODO 6: Create a method to load the state

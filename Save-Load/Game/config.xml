@@ -23,4 +23,8 @@
     <path>data2.zip</path>
   </file_system>
 
+  <audio>
+	<default_volume value="100"/>
+  </audio>
+  
 </config>

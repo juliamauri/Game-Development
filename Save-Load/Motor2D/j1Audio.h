@@ -32,10 +32,20 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 
+	// Load / Save
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
+
+	//Set new volume music
+	void SetVolumeMusic();
+
 private:
 
 	_Mix_Music*			music;
 	p2List<Mix_Chunk*>	fx;
+
+public:
+	uint general_volume;
 };
 
 #endif // __j1AUDIO_H__
