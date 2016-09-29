@@ -34,7 +34,7 @@ void j1Map::Draw()
 
 	// TODO 6: Iterate all tilesets and draw all their 
 	// images in 0,0 (you should have only one tileset for now)
-	tileset_texture = App->tex->Load(tile[0].name_file.GetString());
+	tileset_texture = App->tex->Load(tilesets[0].name_file.GetString());
 	App->render->Blit(tileset_texture, 0, 0);
 
 }
@@ -89,6 +89,8 @@ bool j1Map::Load(const char* file_name)
 	// remember to support more any number of tilesets!
 	bool loadtiles = FillTileSet();
 
+	FillLayer();
+
 	// TODO 5: LOG all the data loaded
 	// iterate all tilesets and LOG everything
 	LogMapData(loadmap,loadtiles);
@@ -138,24 +140,25 @@ bool j1Map::FillTileSet()
 
 	for (pugi::xml_node tileset = map_file.child("map").child("tileset"); tileset; tileset = tileset.next_sibling("tileset"))
 	{
-		count_tileset = 0;
+		TileSet tile;
 
-		tile[count_tileset].name = tileset.attribute("name").as_string();
+		tile.name = tileset.attribute("name").as_string();
 
-		tile[count_tileset].firstgid = tileset.attribute("firstgid").as_uint();
+		tile.firstgid = tileset.attribute("firstgid").as_uint();
 
-		tile[count_tileset].tileheight = tileset.attribute("tileheight").as_uint();
+		tile.tileheight = tileset.attribute("tileheight").as_uint();
 
-		tile[count_tileset].tilewidth = tileset.attribute("tilewidth").as_uint();
+		tile.tilewidth = tileset.attribute("tilewidth").as_uint();
 
-		tile[count_tileset].spacing = tileset.attribute("spacing").as_uint();
+		tile.spacing = tileset.attribute("spacing").as_uint();
 
-		tile[count_tileset].margin = tileset.attribute("margin").as_uint();
+		tile.margin = tileset.attribute("margin").as_uint();
 
-		tile[count_tileset].name_file = folder.GetString();
-		tile[count_tileset].name_file += map_file.child("map").child("tileset").child("image").attribute("source").as_string();
+		tile.name_file = folder.GetString();
+		tile.name_file += map_file.child("map").child("tileset").child("image").attribute("source").as_string();
 
-		count_tileset++;
+		tilesets.add(tile);
+
 	}
 
 	
@@ -163,6 +166,51 @@ bool j1Map::FillTileSet()
 	return ret;
 
 	//atoi, convert char to int
+}
+
+bool j1Map::FillLayer()
+{
+
+	for (pugi::xml_node layer = map_file.child("map").child("layer"); layer; layer = layer.next_sibling("layer"))
+	{
+		Layer layer1;
+
+		layer1.name = layer.attribute("name").as_string();
+		layer1.width = layer.attribute("width").as_uint();
+		layer1.height = layer.attribute("height").as_uint();
+
+		layer1.data = new uint[layer1.height*layer1.width];
+	
+		p2SString data_str = layer.child_value("data");
+		uint size = data_str.Length();
+		//const char* str = data_str.GetString();
+		char* str = nullptr;
+		//Test
+		char* test = strtok_s((char*)data_str.GetString(), ",", &str);
+
+		/*
+		for(uint i = 0; i < size; i++)
+		{
+			uint str_count = 0;
+
+			while (str[str_count] != ',')
+			{
+
+			}
+
+			if (str[i] != ',')
+			{
+				char* s = nullptr;
+				strtok_s((char*)data_str.GetString() , "n", &s);
+				layer1.data[i] = atoi(&str[i]);
+			}
+
+		}*/
+				
+		layers.add(layer1);
+	}
+
+	return true;
 }
 
 void j1Map::LogMapData(bool loadmap, bool loadtiles) const
@@ -180,13 +228,14 @@ void j1Map::LogMapData(bool loadmap, bool loadtiles) const
 	LOG("tileheight: %d", map.tileheight);
 
 	LOG("TileSet----");
-	for (uint i = 0; i < count_tileset; i++)
+
+	for (uint i = 0; i < tilesets.count(); i++)
 	{
-		LOG("name: %s", tile[i].name.GetString());
-		LOG("firstgid: %d", tile[i].firstgid);
-		LOG("tile width: %d", tile[i].tilewidth);
-		LOG("tile height: %d", tile[i].tileheight);
-		LOG("spacing: %d", tile[i].spacing);
-		LOG("margin: %d", tile[i].margin);
+		LOG("name: %s", tilesets[i].name.GetString());
+		LOG("firstgid: %d", tilesets[i].firstgid);
+		LOG("tile width: %d", tilesets[i].tilewidth);
+		LOG("tile height: %d", tilesets[i].tileheight);
+		LOG("spacing: %d", tilesets[i].spacing);
+		LOG("margin: %d", tilesets[i].margin);
 	}
 }

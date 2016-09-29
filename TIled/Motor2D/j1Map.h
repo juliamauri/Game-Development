@@ -6,8 +6,6 @@
 #include "p2Point.h"
 #include "j1Module.h"
 
-#define TILESETLIMIT 25
-
 // TODO 2: Create a struct to hold information for a TileSet
 // Ignore Terrain Types and Tile Types for now, but we want the image!
 struct TileSet
@@ -49,6 +47,14 @@ struct map_info
 	uint tileheight;
 };
 
+struct Layer
+{
+	p2SString name;
+	 uint width;
+	uint height;
+	uint* data;
+};
+
 // ----------------------------------------------------
 class j1Map : public j1Module
 {
@@ -73,14 +79,17 @@ public:
 
 private:
 
-public:
 	bool FillMapInfo(pugi::xml_node&);
 	bool FillTileSet();
+	bool FillLayer();
 	void LogMapData(bool, bool) const;
+
+public:
+	
 	// TODO 1: Add your struct for map info as public for now
 	map_info map;
-	TileSet tile[TILESETLIMIT];
-	uint count_tileset;
+	p2List<TileSet> tilesets;
+	p2List<Layer> layers;
 
 private:
 

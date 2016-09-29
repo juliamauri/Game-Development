@@ -86,7 +86,7 @@ bool j1Scene::Update(float dt)
 	title += numbers.c_str();
 
 	title += " Tilesets:";
-	numbers = std::to_string(App->map->count_tileset);
+	numbers = std::to_string(App->map->tilesets.count());
 	title += numbers.c_str();
 
 	App->win->SetTitle(title.GetString());
