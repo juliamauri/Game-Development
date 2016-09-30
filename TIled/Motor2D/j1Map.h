@@ -53,6 +53,12 @@ struct Layer
 	 uint width;
 	uint height;
 	uint* data;
+
+	~Layer()
+	{
+		if (data != 0)
+			delete[] data;
+	}
 };
 
 // ----------------------------------------------------

@@ -6,6 +6,7 @@
 #include "j1Textures.h"
 #include "j1Map.h"
 #include <math.h>
+#include <ctype.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
@@ -181,31 +182,37 @@ bool j1Map::FillLayer()
 
 		layer1.data = new uint[layer1.height*layer1.width];
 	
+		memset(layer1.data, 0, layer1.height*layer1.width);
+
 		p2SString data_str = layer.child_value("data");
 		uint size = data_str.Length();
-		//const char* str = data_str.GetString();
-		char* str = nullptr;
-		//Test
-		char* test = strtok_s((char*)data_str.GetString(), ",", &str);
+		char* str = (char*)data_str.GetString();
+		char* temp = nullptr;
+		p2SString number;
+		uint count_data = 0;
 
-		/*
-		for(uint i = 0; i < size; i++)
+		for (uint j = 0; j < layer1.height; j++)
 		{
-			uint str_count = 0;
-
-			while (str[str_count] != ',')
+			str++;
+			for (uint i = 0; i < layer1.width; i++)
 			{
-
+				if (i % 2)
+				{
+					strtok_s(temp, ",", &str);
+					layer1.data[count_data++] = atoi(str);
+				}
+				else
+				{
+					strtok_s(str, ",", &temp);
+					layer1.data[count_data++] = atoi(str);
+				}
 			}
-
-			if (str[i] != ',')
-			{
-				char* s = nullptr;
-				strtok_s((char*)data_str.GetString() , "n", &s);
-				layer1.data[i] = atoi(&str[i]);
-			}
-
-		}*/
+		}
+		if (temp != NULL)
+		{
+			strtok_s(temp, "\n", &str);
+			layer1.data[--count_data] = atoi(temp);
+		}
 				
 		layers.add(layer1);
 	}
