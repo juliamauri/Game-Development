@@ -25,6 +25,9 @@ bool j1Map::Awake(pugi::xml_node& config)
 
 	folder.create(config.child("folder").child_value());
 
+	//bool test = Load(config.child_value("start_map"));
+
+
 	return ret;
 }
 
