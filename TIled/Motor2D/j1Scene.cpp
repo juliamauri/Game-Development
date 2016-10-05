@@ -32,7 +32,7 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->map->Load("hello.tmx");
+	App->map->Load("iso.tmx");
 	return true;
 }
 
@@ -87,6 +87,19 @@ bool j1Scene::Update(float dt)
 
 	title += " Tilesets:";
 	numbers = std::to_string(App->map->tilesets.count());
+	title += numbers.c_str();
+
+	int x = 0;
+	int y = 0;
+	App->input->GetMousePosition(x, y);
+
+	p2Point<uint> TilePos = App->map->GetTilePos(x, y);
+
+	title += " Tile:";
+	numbers = std::to_string(TilePos.x);
+	title += numbers.c_str();
+	title += "x";
+	numbers = std::to_string(TilePos.y);
 	title += numbers.c_str();
 
 	App->win->SetTitle(title.GetString());

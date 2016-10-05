@@ -79,12 +79,15 @@ public:
 	// Load new map
 	bool Load(const char* path);
 
+	p2Point<uint> GetTilePos(uint, uint) const;
+
 private:
 
 	bool FillMapInfo(pugi::xml_node&);
 	bool FillTileSet();
 	bool FillLayer();
 	void LogMapData(bool, bool, bool) const;
+	
 
 public:
 	
@@ -102,7 +105,8 @@ private:
 
 	inline uint Get(uint, uint) const;
 
-	inline p2Point<uint> GetWorldPos(uint, uint,uint) const;
+	
+	inline p2Point<uint> GetWorldPos(uint, uint) const;
 
 	SDL_Rect tile_id(uint,uint*) const;
 	

@@ -63,12 +63,14 @@ void j1Map::Draw()
 		{
 			for (uint x = 0; x < layers[i]->width; x++)
 			{
+				/*
 				if (test == 101)
 					uint breackpoint = 0;
+				*/
 
 				SDL_Rect tile = tile_id(layers[i]->data[test++], &id_tileset);
 
-				coordenates = GetWorldPos(x, y, id_tileset);
+				coordenates = GetWorldPos(x, y);
 
 				App->render->Blit(tilesets_texture[id_tileset], coordenates.x, coordenates.y, &tile);
 			}
@@ -353,14 +355,25 @@ inline uint j1Map::Get(uint x, uint y) const
 	//return count;
 }
 
-inline p2Point<uint> j1Map::GetWorldPos(uint x, uint y,uint tileset_id) const
+p2Point<uint> j1Map::GetTilePos(uint wx, uint wy) const
+{
+	p2Point<uint> ret;
+
+	ret.x = wx / map.tilewidth;
+
+	ret.y = wy / map.tileheight;
+
+	return ret;
+}
+
+inline p2Point<uint> j1Map::GetWorldPos(uint x, uint y) const
 {
 
 	p2Point<uint> ret;
 	
 
-	ret.x = x*tilesets[tileset_id]->tilewidth;
-	ret.y = y*tilesets[tileset_id]->tileheight;
+	ret.x = x*map.tilewidth;
+	ret.y = y*map.tileheight;
 
 	return ret;
 }
