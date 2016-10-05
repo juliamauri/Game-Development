@@ -87,7 +87,7 @@ private:
 	bool FillTileSet();
 	bool FillLayer();
 	void LogMapData(bool, bool, bool) const;
-	
+	void DrawLayer(uint num = 0) const;
 
 public:
 	
@@ -103,7 +103,7 @@ private:
 	p2SString			path_map;
 	bool				map_loaded;
 
-	inline uint Get(uint, uint) const;
+	inline uint Get(uint, uint, uint) const;
 
 	
 	inline p2Point<uint> GetWorldPos(uint, uint) const;

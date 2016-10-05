@@ -36,49 +36,8 @@ void j1Map::Draw()
 	if(map_loaded == false)
 		return;
 
-	// TODO 6: Iterate all tilesets and draw all their 
-	// images in 0,0 (you should have only one tileset for now)
-	//Loading all Tilsets image
-	/*
-	uint x = 0;
-	for (uint i = 0; i < tilesets_texture.count(); i++)
-	{
-			App->render->Blit(tilesets_texture[i], x, 0);
-			x += tilesets[i]->width_file + 10;
-	}
-	*/
-
 	// Loading layer
-	
-	for (uint i = 0; i < layers.count(); i++)
-	{
-		uint id_tileset = 0;
-		p2Point<uint> coordenates;
-		
-		uint size = layers[i]->height * layers[i]->width;
-
-		uint test = 0;
-
-		for (uint y = 0; y < layers[i]->height; y++)
-		{
-			for (uint x = 0; x < layers[i]->width; x++)
-			{
-				/*
-				if (test == 101)
-					uint breackpoint = 0;
-				*/
-
-				SDL_Rect tile = tile_id(layers[i]->data[test++], &id_tileset);
-
-				coordenates = GetWorldPos(x, y);
-
-				App->render->Blit(tilesets_texture[id_tileset], coordenates.x, coordenates.y, &tile);
-			}
-		}
-	}
-
-	
-
+	DrawLayer();
 }
 
 // Called before quitting
@@ -329,30 +288,27 @@ void j1Map::LogMapData(bool loadmap, bool loadtiles, bool loadlayers) const
 	}
 }
 
-inline uint j1Map::Get(uint x, uint y) const
+void j1Map::DrawLayer(uint num) const
 {
-	/*
-	uint count = 0;
+	uint id_tileset = 0;
+	p2Point<uint> coordenates;
 
-	for (uint count_y = 0; count_y < y; count_y++)
+	for (uint y = 0; y < layers[num]->height; y++)
 	{
-		for (uint count_x = 0; count_x < x; count_x++)
+		for (uint x = 0; x < layers[num]->width; x++)
 		{
-			count++;
+			SDL_Rect tile = tile_id(layers[num]->data[Get(x,y,num)], &id_tileset);
+
+			coordenates = GetWorldPos(x, y);
+
+			App->render->Blit(tilesets_texture[id_tileset], coordenates.x, coordenates.y, &tile);
 		}
 	}
-	*/
-	
-	if (y == 0)
-		return x;
+}
 
-	if (x == 0)
-		return y;
-
-
-	return x*y;
-	
-	//return count;
+inline uint j1Map::Get(uint x, uint y, uint num) const
+{	
+	return (y*layers[num]->width + x);
 }
 
 p2Point<uint> j1Map::GetTilePos(uint wx, uint wy) const
@@ -371,7 +327,6 @@ inline p2Point<uint> j1Map::GetWorldPos(uint x, uint y) const
 
 	p2Point<uint> ret;
 	
-
 	ret.x = x*map.tilewidth;
 	ret.y = y*map.tileheight;
 
@@ -405,16 +360,15 @@ SDL_Rect j1Map::tile_id(uint id, uint* id_tileset) const
 
 		for (uint y = 0; y < tiles_y; y++)
 		{
-			for (uint x = 0; x < tiles_x; x++)
+			for (uint x = 0; x < tiles_x; x++,count_tile++)
 			{
+
 				if (count_tile != id)
-				{
 					ret_x += tilesets[t]->tilewidth + tilesets[t]->spacing;
-					count_tile++;
-				}
 				else
 					break;
 			}
+
 			if (count_tile != id)
 			{
 				ret_y += tilesets[t]->tileheight + tilesets[t]->spacing;
