@@ -8,6 +8,5 @@ By Julià Mauri Costa
 
 ## License
 GNU General Public License v3.0
-
-  <tabTrigger>readme</tabTrigger>
+  </content>
 </snippet>
