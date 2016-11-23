@@ -110,7 +110,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Entity.h" />
     <ClInclude Include="UIComponents.h" />
     <ClInclude Include="UIManager.h" />
   </ItemGroup>
