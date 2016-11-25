@@ -16,8 +16,7 @@ enum UIComponent_TYPE
 {
 	LABEL,
 	BUTTON,
-	INPUT,
-	IMAGE
+	INPUT
 };
 
 class UIComponents
@@ -25,15 +24,17 @@ class UIComponents
 public:
 	SDL_Rect rect_position;
 	SDL_Rect rect_atlas;
+	UIComponent_TYPE type;
 
 public:
-	UIComponents(int pos_x, int pos_y)
+	UIComponents(int pos_x, int pos_y, UIComponent_TYPE type)
 	{
 		rect_position.x = pos_x;
 		rect_position.y = pos_y;
+		this->type = type;
 	}
 
-	UIComponents(int pos_x, int pos_y,int pos_w, int pos_h, int atlas_x, int atlas_y, int atlas_w, int atlas_h)
+	UIComponents(int pos_x, int pos_y,int pos_w, int pos_h, int atlas_x, int atlas_y, int atlas_w, int atlas_h,UIComponent_TYPE type)
 	{
 		rect_position.x = pos_x;
 		rect_position.y = pos_y;
@@ -44,9 +45,11 @@ public:
 		rect_atlas.y = atlas_y;
 		rect_atlas.w = atlas_w;
 		rect_atlas.h = atlas_h;
+
+		this->type = type;
 	}
 
-	UIComponents(SDL_Rect position, SDL_Rect atlas) : rect_position(position), rect_atlas(atlas) { }
+	UIComponents(SDL_Rect position, SDL_Rect atlas, UIComponent_TYPE type) : rect_position(position), rect_atlas(atlas), type(type) { }
 };
 
 class UILabel : public UIComponents
@@ -57,7 +60,7 @@ public:
 
 public:
 	UILabel();
-	UILabel(int pos_x, int pos_y, const char* text) : UIComponents(pos_x, pos_y), text(text) {}
+	UILabel(int pos_x, int pos_y, const char* text) : UIComponents(pos_x, pos_y, UIComponent_TYPE::LABEL), text(text) {}
 };
 
 class UIButton : public UIComponents
@@ -67,14 +70,14 @@ public:
 	UILabel title;
 
 public:
-	UIButton(int pos_x, int pos_y, int pos_w, int pos_h, int atlas_x, int atlas_y, int atlas_w, int atlas_h, int label_x, int label_y, const char* text_title) : UIComponents(pos_x,pos_y,pos_w,pos_h,atlas_x,atlas_y, atlas_w,atlas_h)
+	UIButton(int pos_x, int pos_y, int pos_w, int pos_h, int atlas_x, int atlas_y, int atlas_w, int atlas_h, int label_x, int label_y, const char* text_title) : UIComponents(pos_x,pos_y,pos_w,pos_h,atlas_x,atlas_y, atlas_w,atlas_h, UIComponent_TYPE::BUTTON)
 	{
 		title.rect_position.x = label_x;
 		title.rect_position.y = label_y;
 		title.text.create(text_title);
 	}
 
-	UIButton(SDL_Rect position, SDL_Rect atlas, int label_x, int label_y, const char* text_title) : UIComponents(position, atlas)
+	UIButton(SDL_Rect position, SDL_Rect atlas, int label_x, int label_y, const char* text_title) : UIComponents(position, atlas, UIComponent_TYPE::BUTTON)
 	{
 		title.rect_position.x = label_x;
 		title.rect_position.y = label_y;
@@ -91,14 +94,14 @@ public:
 	UILabel title;
 
 public:
-	UIInput(int pos_x, int pos_y, int pos_w, int pos_h, int atlas_x, int atlas_y, int atlas_w, int atlas_h, int label_x, int label_y, const char* text_title) : UIComponents(pos_x, pos_y, pos_w, pos_h, atlas_x, atlas_y, atlas_w, atlas_h)
+	UIInput(int pos_x, int pos_y, int pos_w, int pos_h, int atlas_x, int atlas_y, int atlas_w, int atlas_h, int label_x, int label_y, const char* text_title) : UIComponents(pos_x, pos_y, pos_w, pos_h, atlas_x, atlas_y, atlas_w, atlas_h, UIComponent_TYPE::INPUT)
 	{
 		title.rect_position.x = label_x;
 		title.rect_position.y = label_y;
 		title.text.create(text_title);
 	}
 
-	UIInput(SDL_Rect position, SDL_Rect atlas, int label_x, int label_y, const char* text_title) : UIComponents(position, atlas)
+	UIInput(SDL_Rect position, SDL_Rect atlas, int label_x, int label_y, const char* text_title) : UIComponents(position, atlas, UIComponent_TYPE::INPUT)
 	{
 		title.rect_position.x = label_x;
 		title.rect_position.y = label_y;
@@ -107,5 +110,3 @@ public:
 
 	const char* GetStr();
 };
-
-typedef UIComponents UIImage
