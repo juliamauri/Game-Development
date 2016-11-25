@@ -50,6 +50,8 @@ public:
 	}
 
 	UIComponents(SDL_Rect position, SDL_Rect atlas, UIComponent_TYPE type) : rect_position(position), rect_atlas(atlas), type(type) { }
+
+	virtual void draw() {};
 };
 
 class UILabel : public UIComponents
